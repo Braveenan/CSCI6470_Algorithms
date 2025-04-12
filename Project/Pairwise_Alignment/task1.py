@@ -1,7 +1,7 @@
 """
 Title: Pairwise Alignment
 Author: Braveenan Sritharan
-Date Created: 2025-04-06
+Date Created: 2025-04-12
 
 """
 
@@ -54,9 +54,9 @@ def read_two_lines(filepath):
 # -------------------------
 
 # F(i, j) = max(
-#     F(i-1, j-1) + S(x[i], y[j]),  # match/mismatch
-#     F(i-1, j)   + delta,          # gap in y (deletion)
-#     F(i, j-1)   + delta           # gap in x (insertion)
+#     F(i-1, j-1) + S(x[i], y[j]),  # Match/mismatch
+#     F(i-1, j)   + delta,          # Gap in y (deletion)
+#     F(i, j-1)   + delta           # Gap in x (insertion)
 # )
 
 
@@ -69,19 +69,23 @@ def fill_dp_table(x, y, score):
     Fills the dynamic programming table based on the defined objective function.
     Returns the score table and the backtrace previous table.
     """
-    m, n = len(x), len(y)
 
+    # Initialize score table and traceback table
+    m, n = len(x), len(y)
     score_table = [[0] * (n + 1) for _ in range(m + 1)]
     prev_table = [[(-1, -1)] * (n + 1) for _ in range(m + 1)]
 
+    # Initialize first column with gap penalties
     for i in range(1, m + 1):
         score_table[i][0] = score_table[i-1][0] + score["delta"]
         prev_table[i][0] = (i-1, 0)
 
+    # Initialize first row with gap penalties
     for j in range(1, n + 1):
         score_table[0][j] = score_table[0][j-1] + score["delta"]
         prev_table[0][j] = (0, j-1)
 
+    # Fill the rest of the DP table
     for i in range(1, m + 1):
         for j in range(1, n + 1):
             match = score_table[i-1][j-1] + score[(x[i-1], y[j-1])]
@@ -91,6 +95,7 @@ def fill_dp_table(x, y, score):
             best = max(match, delete, insert)
             score_table[i][j] = best
 
+            # Store the traceback direction
             if best == match:
                 prev_table[i][j] = (i-1, j-1)
             elif best == delete:
@@ -111,13 +116,13 @@ def traceback_alignment(score_table, prev_table, x, y, output_path):
     Writes aligned sequences, traceback path, final score, and tables to output_path.
     """
     i, j = len(x), len(y)
-    path = []
-    path.append((i, j))
+    path = [(i, j)]
     aligned_x = []
     aligned_y = []
 
     final_score = score_table[i][j]
 
+    # Traceback to reconstruct the alignment
     while i > 0 or j > 0:
         prev_i, prev_j = prev_table[i][j]
 
@@ -134,10 +139,12 @@ def traceback_alignment(score_table, prev_table, x, y, output_path):
         i, j = prev_i, prev_j
         path.append((i, j))
 
+    # Reverse results to get correct alignment
     path.reverse()
     aligned_x.reverse()
     aligned_y.reverse()
 
+    # Write all results to a file
     with open(output_path, "w") as f:
         f.write("Aligned Sequence X:\n")
         f.write(''.join(aligned_x) + '\n\n')
@@ -169,14 +176,19 @@ def traceback_alignment(score_table, prev_table, x, y, output_path):
 if __name__ == "__main__":
     ensure_directories()
 
+    # Initialize input and config file paths
     input_file = os.path.join("input", "input1.txt")
     config_file = os.path.join("config", "config4.txt")
     output_file = os.path.join("output", "output.txt")
 
+    # Read sequences and score configuration
     x, y = read_two_lines(input_file)
     score = read_config_file(config_file)
 
+    # Fill DP table
     score_table, prev_table = fill_dp_table(x, y, score)
+
+    # Perform traceback to build aligned sequences
     path, final_score = traceback_alignment(score_table, prev_table, x, y, output_file)
 
     print("Traceback Path:", path)
