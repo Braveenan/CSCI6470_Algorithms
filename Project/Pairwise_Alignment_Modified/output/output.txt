@@ -1,0 +1,59 @@
+Aligned Sequence X:
+ATG
+
+Aligned Sequence Y:
+TG-
+
+Traceback Path (i, j, k):
+(0,0,0) <- (1,1,0) <- (2,2,0) <- (3,2,2)
+
+Final Alignment Score: 6
+
+Match Score Table (M):
+0	-inf	-inf
+-inf	3	1
+-inf	2	8
+-inf	2	4
+
+Insertion Score Table (I):
+-inf	-2	-3
+-inf	-inf	1
+-inf	-inf	0
+-inf	-inf	0
+
+Deletion Score Table (D):
+-inf	-inf	-inf
+-2	-inf	-inf
+-3	1	-1
+-4	0	6
+
+Final Score Table (F):
+0	-inf	-inf
+-inf	3	1
+-inf	2	8
+-inf	2	6
+
+Match Traceback Table (M_prev) (Previous Table):
+None	None	None
+None	(0,0,0)	(1,0,1)
+None	(2,1,0)	(0,1,1)
+None	(2,2,0)	(0,2,1)
+
+Insertion Traceback Table (I_prev) (Previous Table):
+None	(1,0,0)	(1,0,1)
+None	(0,1,0)	(0,1,1)
+None	(0,2,0)	(0,2,1)
+None	(0,3,0)	(0,3,1)
+
+Deletion Traceback Table (D_prev) (Previous Table):
+None	None	None
+(2,0,0)	(0,0,1)	(0,0,2)
+(2,1,0)	(0,1,1)	(0,1,2)
+(2,2,0)	(0,2,1)	(0,2,2)
+
+Final Traceback Table (F_prev) (Previous Table):
+None	None	None
+None	(0,1,1)	(1,1,2)
+None	(0,2,1)	(0,2,2)
+None	(0,3,1)	(2,3,2)
+

@@ -1,0 +1,18 @@
+A	A	2
+A	C	1
+A	G	3
+A	T	1
+C	A	5
+C	C	5
+C	G	2
+C	T	5
+G	A	4
+G	C	3
+G	G	3
+G	T	3
+T	A	4
+T	C	1
+T	G	5
+T	T	3
+alpha	-3
+beta	-1

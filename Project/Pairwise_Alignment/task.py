@@ -66,42 +66,47 @@ def read_two_lines(filepath):
 
 def fill_dp_table(x, y, score):
     """
-    Fills the dynamic programming table based on the defined objective function.
+    Fills the dynamic programming table using linear gap penalties.
+    Initializes with -inf and None like in the affine version.
     Returns the score table and the backtrace previous table.
     """
-
-    # Initialize score table and traceback table
     m, n = len(x), len(y)
-    score_table = [[0] * (n + 1) for _ in range(m + 1)]
-    prev_table = [[(-1, -1)] * (n + 1) for _ in range(m + 1)]
+    delta = score["delta"]
+
+    # Initialize score table with -inf and prev_table with None
+    score_table = [[float('-inf')] * (n + 1) for _ in range(m + 1)]
+    prev_table = [[None] * (n + 1) for _ in range(m + 1)]
+
+    # Set base case
+    score_table[0][0] = 0
 
     # Initialize first column with gap penalties
     for i in range(1, m + 1):
-        score_table[i][0] = score_table[i-1][0] + score["delta"]
-        prev_table[i][0] = (i-1, 0)
+        score_table[i][0] = score_table[i - 1][0] + delta
+        prev_table[i][0] = (i - 1, 0)
 
     # Initialize first row with gap penalties
     for j in range(1, n + 1):
-        score_table[0][j] = score_table[0][j-1] + score["delta"]
-        prev_table[0][j] = (0, j-1)
+        score_table[0][j] = score_table[0][j - 1] + delta
+        prev_table[0][j] = (0, j - 1)
 
     # Fill the rest of the DP table
     for i in range(1, m + 1):
         for j in range(1, n + 1):
-            match = score_table[i-1][j-1] + score[(x[i-1], y[j-1])]
-            delete = score_table[i-1][j] + score["delta"]
-            insert = score_table[i][j-1] + score["delta"]
+            match = score_table[i - 1][j - 1] + score[(x[i - 1], y[j - 1])]
+            delete = score_table[i - 1][j] + delta
+            insert = score_table[i][j - 1] + delta
 
             best = max(match, delete, insert)
             score_table[i][j] = best
 
-            # Store the traceback direction
+            # Store traceback info
             if best == match:
-                prev_table[i][j] = (i-1, j-1)
+                prev_table[i][j] = (i - 1, j - 1)
             elif best == delete:
-                prev_table[i][j] = (i-1, j)
+                prev_table[i][j] = (i - 1, j)
             else:
-                prev_table[i][j] = (i, j-1)
+                prev_table[i][j] = (i, j - 1)
 
     return score_table, prev_table
 
@@ -164,7 +169,14 @@ def traceback_alignment(score_table, prev_table, x, y, output_path):
 
         f.write("Previous Table:\n")
         for row in prev_table:
-            f.write('\t'.join([f"({a},{b})" for (a, b) in row]) + '\n')
+            formatted_row = []
+            for cell in row:
+                if cell is None:
+                    formatted_row.append("None")
+                else:
+                    a, b = cell
+                    formatted_row.append(f"({a},{b})")
+            f.write('\t'.join(formatted_row) + '\n')
 
     return path, final_score
 
