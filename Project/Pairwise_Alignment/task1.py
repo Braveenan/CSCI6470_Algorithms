@@ -112,13 +112,13 @@ def traceback_alignment(score_table, prev_table, x, y, output_path):
     """
     i, j = len(x), len(y)
     path = []
+    path.append((i, j))
     aligned_x = []
     aligned_y = []
 
     final_score = score_table[i][j]
 
     while i > 0 or j > 0:
-        path.append((i, j))
         prev_i, prev_j = prev_table[i][j]
 
         if prev_i == i - 1 and prev_j == j - 1:
@@ -132,8 +132,8 @@ def traceback_alignment(score_table, prev_table, x, y, output_path):
             aligned_y.append(y[prev_j])
 
         i, j = prev_i, prev_j
+        path.append((i, j))
 
-    path.append((0, 0))
     path.reverse()
     aligned_x.reverse()
     aligned_y.reverse()
