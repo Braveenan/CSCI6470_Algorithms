@@ -1,0 +1,11 @@
+A	A	5
+A	C	4
+A	G	4
+A	T	5
+C	C	3
+C	G	2
+C	T	3
+G	G	3
+G	T	5
+T	T	5
+delta	-5

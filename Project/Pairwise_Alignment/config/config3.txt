@@ -1,0 +1,17 @@
+A	A	1
+A	C	3
+A	G	2
+A	T	1
+C	A	3
+C	C	2
+C	G	1
+C	T	2
+G	A	2
+G	C	1
+G	G	1
+G	T	5
+T	A	1
+T	C	2
+T	G	5
+T	T	4
+delta	-1
