@@ -68,8 +68,6 @@ def read_two_lines(filepath):
 #     Fd(i-1, j) + beta,  # State D to D
 # )
 
-# F(i, j) = max(Fm(i, j), Fi(i, j), Fd(i, j))
-
 # -------------------------
 # Step 2: Fill DP Table
 # -------------------------
