@@ -1,59 +1,48 @@
 Aligned Sequence X:
-ATG
+ATC
 
 Aligned Sequence Y:
-TG-
+--C
 
-Traceback Path (i, j, k):
-(0,0,0) <- (1,1,0) <- (2,2,0) <- (3,2,2)
+Traceback Path:
+(0,0,0) <- (2,1,0) <- (2,2,0) <- (0,3,1)
 
-Final Alignment Score: 6
+Final Alignment Score:
+-2
 
-Match Score Table (M):
-0	-inf	-inf
--inf	3	1
--inf	2	8
--inf	2	4
+Match Score Table:
+0	-inf
+-inf	3
+-inf	0
+-inf	-2
 
-Insertion Score Table (I):
--inf	-2	-3
--inf	-inf	1
--inf	-inf	0
--inf	-inf	0
+Insert Score Table:
+-inf	-3
+-inf	-inf
+-inf	-inf
+-inf	-inf
 
-Deletion Score Table (D):
--inf	-inf	-inf
--2	-inf	-inf
--3	1	-1
--4	0	6
+Delete Score Table:
+-inf	-inf
+-3	-inf
+-7	0
+-11	-3
 
-Final Score Table (F):
-0	-inf	-inf
--inf	3	1
--inf	2	8
--inf	2	6
+Match Previous Table:
+None	None
+None	(0,0,0)
+None	(2,1,0)
+None	(2,2,0)
 
-Match Traceback Table (M_prev) (Previous Table):
-None	None	None
-None	(0,0,0)	(1,0,1)
-None	(2,1,0)	(0,1,1)
-None	(2,2,0)	(0,2,1)
+Insert Previous Table:
+None	(0,0,0)
+None	None
+None	None
+None	None
 
-Insertion Traceback Table (I_prev) (Previous Table):
-None	(1,0,0)	(1,0,1)
-None	(0,1,0)	(0,1,1)
-None	(0,2,0)	(0,2,1)
-None	(0,3,0)	(0,3,1)
-
-Deletion Traceback Table (D_prev) (Previous Table):
-None	None	None
-(2,0,0)	(0,0,1)	(0,0,2)
-(2,1,0)	(0,1,1)	(0,1,2)
-(2,2,0)	(0,2,1)	(0,2,2)
-
-Final Traceback Table (F_prev) (Previous Table):
-None	None	None
-None	(0,1,1)	(1,1,2)
-None	(0,2,1)	(0,2,2)
-None	(0,3,1)	(2,3,2)
+Delete Previous Table:
+None	None
+(0,0,0)	None
+(2,1,0)	(0,1,1)
+(2,2,0)	(0,2,1)
 
