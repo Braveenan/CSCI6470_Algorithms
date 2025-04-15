@@ -83,13 +83,6 @@ Each cell stores the maximum alignment score up to that point and
 tracks its predecessor to support traceback.
 """
 
-"""
-Fills the dynamic programming tables (score_table and prev_table)
-using recurrence relations for match, insert, and delete states.
-Each cell stores the maximum alignment score up to that point and
-tracks its predecessor to support traceback.
-"""
-
 def fill_dp_table(x, y, score):
     m, n = len(x), len(y)
     alpha = score["alpha"]
@@ -158,9 +151,11 @@ def fill_dp_table(x, y, score):
 
 """
 Traces back through the prev_table starting from the highest-scoring
-cell at the bottom-right of the DP table. It reconstructs the aligned
-sequences, the traceback path, and writes all results including
-alignment, scores, and path tables to an output file.
+cell at the bottom-right of the DP table. It compares the final cell
+across all three state tables (match, insert, delete), selects the one 
+with the maximum score, and initiates traceback from that state. It 
+reconstructs the aligned sequences, the traceback path, and writes all 
+results including alignment, scores, and path tables to an output file.
 """
 
 def traceback_alignment(score_table, prev_table, x, y, output_path):
