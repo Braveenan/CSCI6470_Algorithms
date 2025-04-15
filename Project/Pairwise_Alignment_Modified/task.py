@@ -100,18 +100,18 @@ def fill_dp_table(x, y, score):
             (score_table[0][0][j - 1] + alpha, 0),
             (score_table[1][0][j - 1] + beta,  1)
         ]
-        score_table[1][0][j], k = max(insert_candidates, key=lambda x: x[0])
+        score_table[1][0][j], prev_k = max(insert_candidates, key=lambda x: x[0])
         if score_table[1][0][j] > float('-inf'):
-            prev_table[1][0][j] = (k, 0, j - 1)
+            prev_table[1][0][j] = (prev_k, 0, j - 1)
 
     for i in range(1, m + 1):
         delete_candidates = [
             (score_table[0][i - 1][0] + alpha, 0),
             (score_table[2][i - 1][0] + beta,  2)
         ]
-        score_table[2][i][0], k = max(delete_candidates, key=lambda x: x[0])
+        score_table[2][i][0], prev_k = max(delete_candidates, key=lambda x: x[0])
         if score_table[2][i][0] > float('-inf'):
-            prev_table[2][i][0] = (k, i - 1, 0)
+            prev_table[2][i][0] = (prev_k, i - 1, 0)
 
     # Fill tables
     for i in range(1, m + 1):
@@ -123,25 +123,25 @@ def fill_dp_table(x, y, score):
                 (score_table[1][i - 1][j - 1] + s, 1),
                 (score_table[2][i - 1][j - 1] + s, 2)
             ]
-            score_table[0][i][j], k = max(match_candidates, key=lambda x: x[0])
+            score_table[0][i][j], prev_k = max(match_candidates, key=lambda x: x[0])
             if score_table[0][i][j] > float('-inf'):
-                prev_table[0][i][j] = (k, i - 1, j - 1)
+                prev_table[0][i][j] = (prev_k, i - 1, j - 1)
 
             insert_candidates = [
                 (score_table[0][i][j - 1] + alpha, 0),
                 (score_table[1][i][j - 1] + beta,  1)
             ]
-            score_table[1][i][j], k = max(insert_candidates, key=lambda x: x[0])
+            score_table[1][i][j], prev_k = max(insert_candidates, key=lambda x: x[0])
             if score_table[1][i][j] > float('-inf'):
-                prev_table[1][i][j] = (k, i, j - 1)
+                prev_table[1][i][j] = (prev_k, i, j - 1)
 
             delete_candidates = [
                 (score_table[0][i - 1][j] + alpha, 0),
                 (score_table[2][i - 1][j] + beta,  2)
             ]
-            score_table[2][i][j], k = max(delete_candidates, key=lambda x: x[0])
+            score_table[2][i][j], prev_k = max(delete_candidates, key=lambda x: x[0])
             if score_table[2][i][j] > float('-inf'):
-                prev_table[2][i][j] = (k, i - 1, j)
+                prev_table[2][i][j] = (prev_k, i - 1, j)
 
     return score_table, prev_table
 
